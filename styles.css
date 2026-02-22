@@ -1,0 +1,36 @@
+:root {
+  --bg: #f8fafc;
+  --text: #0f172a;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  display: grid;
+  place-items: center;
+  font-family: Georgia, "Times New Roman", serif;
+  background: linear-gradient(180deg, #eef2ff 0%, var(--bg) 35%);
+  color: var(--text);
+  line-height: 1.5;
+}
+
+.placeholder {
+  width: min(850px, 92vw);
+  text-align: center;
+  padding: 2rem;
+}
+
+.placeholder h1 {
+  font-size: clamp(2.2rem, 7vw, 4.6rem);
+  margin: 0 0 1rem;
+  line-height: 1.1;
+}
+
+.placeholder p {
+  font-size: clamp(1rem, 2.4vw, 1.35rem);
+  margin: 0;
+}
