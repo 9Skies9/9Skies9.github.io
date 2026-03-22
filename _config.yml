@@ -1,0 +1,6 @@
+title: 9Skies9
+description: Personal site
+baseurl: ""
+url: "https://9skies9.github.io"
+markdown: kramdown
+permalink: /posts/:year/:month/:day/:title/
