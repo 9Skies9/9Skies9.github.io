@@ -1,9 +1,9 @@
 # Sync card counts (Pixiv / Bilibili / YouTube / GitHub) into cards/counts.js
 #
-# Runs daily + on demand. The script is self-skipping: providers without
-# credentials are just left out, so this works even with zero secrets.
+# Runs daily + on demand. Bakes fresh numbers into cards/counts.js and
+# commits it back only when something changed.
 #
-# Optional secrets (repo -> Settings -> Secrets and variables -> Actions):
+# Secrets (repo -> Settings -> Secrets and variables -> Actions):
 #   PIXIV_REFRESH_TOKEN   Pixiv likes via pixivpy (see @upbit/pixivpy docs)
 #   YOUTUBE_API_KEY       YouTube Data API v3 key
 #
