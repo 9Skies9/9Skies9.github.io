@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Personal site — layout reference</title>
+<style>
+  :root {
+    --bg: #f5f4f0;
+    --card: #ffffff;
+    --sunken: #ebeae5;
+    --ink: #1f1f1d;
+    --muted: #6b6a64;
+    --faint: #9a9890;
+    --line: #dcdad3;
+    --line-strong: #c3c1b8;
+    --accent: #185fa5;
+    --accent-bg: #e6f1fb;
+    --accent-line: #85b7eb;
+    --mono: ui-monospace, "SF Mono", "Cascadia Mono", Menlo, Consolas, monospace;
+    --sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--ink);
+    font-family: var(--sans);
+    line-height: 1.6;
+    padding: 32px 16px 80px;
+  }
+  .page { max-width: 760px; margin: 0 auto; display: flex; flex-direction: column; gap: 10px; }
+
+  .panel { background: var(--card); border: 1px solid var(--line); border-radius: 12px; padding: 20px; }
+
+  .intro { display: flex; gap: 18px; align-items: center; }
+  .photo { width: 80px; height: 80px; border-radius: 12px; background: var(--sunken); border: 1px solid var(--line); display: flex; align-items: center; justify-content: center; color: var(--faint); flex-shrink: 0; font-size: 12px; }
+  .intro h1 { font-size: 20px; font-weight: 600; margin: 0; }
+  .intro p { font-size: 14px; color: var(--muted); margin: 6px 0 0; }
+  .thesis { color: var(--ink); }
+
+  .roots { display: flex; gap: 22px; align-items: center; }
+  .roots .heart { flex-shrink: 0; }
+  .roots-label { font-family: var(--mono); font-size: 12px; color: var(--faint); margin-bottom: 12px; }
+  .roots-grid { display: grid; grid-template-columns: auto 1fr; gap: 6px 16px; font-size: 13px; }
+  .roots-grid .cat { color: var(--faint); }
+  .roots-grid .val { color: var(--muted); }
+
+  .down { text-align: center; color: var(--faint); font-size: 24px; line-height: 1; }
+
+  .selector { display: flex; gap: 12px; justify-content: center; }
+  .tile { flex: 1; max-width: 170px; border: 1px solid var(--line); border-radius: 10px; padding: 18px; text-align: center; cursor: pointer; background: var(--card); }
+  .tile.active { border: 2px solid var(--accent-line); background: var(--accent-bg); }
+  .tile .ico { font-size: 24px; line-height: 1; }
+  .tile .lbl { font-size: 15px; font-weight: 600; margin-top: 6px; }
+  .tile.active .lbl, .tile.active .ico { color: var(--accent); }
+
+  .bignum { background: var(--accent-bg); border-radius: 12px; padding: 22px; text-align: center; }
+  .bignum .n { font-size: 34px; font-weight: 600; color: var(--accent); line-height: 1; }
+  .bignum .l { font-size: 13px; color: var(--accent); margin-top: 6px; }
+
+  .row { display: flex; gap: 10px; }
+  .rail { width: 16px; flex-shrink: 0; display: flex; flex-direction: column; align-items: center; }
+  .dot { width: 13px; height: 13px; border-radius: 50%; background: var(--card); border: 3px solid var(--accent); margin-top: 18px; }
+  .dot.old { border-color: var(--faint); }
+  .rail .line { width: 2px; flex: 1; background: var(--line-strong); margin-top: 3px; }
+  .stack { flex: 1; min-width: 0; }
+  .date { font-size: 12px; color: var(--muted); margin: 14px 0 8px; }
+
+  .card { background: var(--card); border: 1px solid var(--line); border-radius: 12px; padding: 14px; display: flex; flex-direction: column; gap: 12px; }
+  .card-top { display: flex; gap: 12px; }
+  .front { flex: 1.6; aspect-ratio: 16/9; border-radius: 8px; border: 1px solid var(--line); background-image: repeating-linear-gradient(45deg, var(--sunken), var(--sunken) 10px, var(--card) 10px, var(--card) 20px); }
+  .front.alt { background-image: repeating-linear-gradient(135deg, var(--sunken), var(--sunken) 10px, var(--card) 10px, var(--card) 20px); }
+  .count { flex: 1; background: var(--accent-bg); border-radius: 8px; display: flex; align-items: center; justify-content: center; gap: 8px; }
+  .count .star { font-size: 24px; color: var(--accent); }
+  .count .n { font-size: 22px; font-weight: 600; color: var(--accent); }
+  .meta { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
+  .tags { display: flex; gap: 6px; flex-wrap: wrap; }
+  .tag { font-size: 12px; background: var(--sunken); border: 1px solid var(--line); border-radius: 6px; padding: 4px 8px; color: var(--muted); }
+  .src { font-size: 12px; color: var(--accent); text-decoration: none; white-space: nowrap; }
+  .desc { font-size: 14px; color: var(--muted); }
+
+  .band-wrap { position: relative; height: 120px; margin: 4px 0 0; overflow: hidden; background: #1a1a1a; border-radius: 4px; }
+  .grid { position: absolute; inset: 0; display: grid; grid-template-columns: repeat(24, 1fr); grid-template-rows: repeat(6, 1fr); gap: 2px; padding: 2px; }
+  .band { position: absolute; left: -4%; right: -4%; top: 50%; transform: translateY(-50%) rotate(-2.5deg); height: 38px; background: #b8b8b8; display: flex; align-items: center; justify-content: center; }
+  .band span { font-family: var(--mono); font-size: 17px; letter-spacing: 4px; color: #1a1a1a; font-weight: 600; }
+  .cursor { animation: blink 1.1s steps(1) infinite; }
+  @keyframes blink { 0%,49%{opacity:1} 50%,100%{opacity:0} }
+  @keyframes flick { 0%,100%{opacity:1} 50%{opacity:0.45} }
+
+  .archive { opacity: 0.5; }
+  .archive-note { font-family: var(--mono); font-size: 12px; color: var(--faint); margin: 14px 0 8px 26px; }
+
+  .searchrow { display: flex; gap: 8px; align-items: center; }
+  .searchbar { flex: 1; height: 40px; border-radius: 8px; border: 1px solid var(--line-strong); background: var(--card); display: flex; align-items: center; gap: 8px; padding: 0 12px; color: var(--faint); font-size: 14px; }
+  .ctrl-btn { width: 40px; height: 40px; border-radius: 8px; border: 1px solid var(--line-strong); background: var(--card); display: flex; align-items: center; justify-content: center; cursor: pointer; font-size: 18px; color: var(--muted); flex-shrink: 0; }
+  .ctrl-btn:hover { background: var(--sunken); }
+
+  .timeline { display: flex; gap: 8px; align-items: stretch; }
+  .timeline-body { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 16px; }
+  .scrub { width: 10px; flex-shrink: 0; background: var(--card); border: 1px solid var(--line); border-radius: 5px; position: relative; }
+  .scrub .thumb { position: absolute; left: -4px; top: 4%; width: 18px; height: 52px; background: var(--accent); border-radius: 6px; cursor: grab; }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <div class="panel intro">
+    <div class="photo">photo</div>
+    <div>
+      <h1>hi, I'm xxx</h1>
+      <p>a few sentences about who I am and what I do — and the line that matters: <span class="thesis">it took me a long time to realize this, and now I'm certain I'm stepping on this path.</span></p>
+    </div>
+  </div>
+
+  <div class="panel roots">
+    <div class="heart">
+      <svg viewBox="0 0 100 92" width="96" height="88" aria-hidden="true">
+        <polygon points="50,20 30,8 12,18 8,40 50,86" fill="#6f6f6f"/>
+        <polygon points="50,20 70,8 88,18 92,40 50,86" fill="#5a5a5a"/>
+        <polygon points="50,20 30,8 18,28 50,46" fill="#8a8a8a"/>
+        <polygon points="50,20 70,8 82,28 50,46" fill="#7a7a7a"/>
+        <polygon points="8,40 18,28 50,46 50,86" fill="#828282"/>
+        <polygon points="92,40 82,28 50,46 50,86" fill="#676767"/>
+        <polygon points="18,28 12,18 8,40" fill="#9a9a9a"/>
+        <polygon points="82,28 88,18 92,40" fill="#727272"/>
+      </svg>
+    </div>
+    <div>
+      <div class="roots-label">// what brought me here — the roots</div>
+      <div class="roots-grid">
+        <span class="cat">music</span><span class="val">Wowaka · Mili</span>
+        <span class="cat">vocaloid</span><span class="val">初音ミク · 洛天依</span>
+        <span class="cat">artists</span><span class="val">Rella · Suke</span>
+        <span class="cat">games</span><span class="val">Library of Ruina · Limbus Company</span>
+        <span class="cat">creators</span><span class="val">3Blue1Brown · Welch Labs</span>
+        <span class="cat">ai</span><span class="val">ChatGPT · Stable Diffusion</span>
+        <span class="cat">cgi</span><span class="val">countless amazing works</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="panel selector">
+    <div class="tile active"><div class="ico">&lt;/&gt;</div><div class="lbl">CS</div></div>
+    <div class="tile"><div class="ico">🎨</div><div class="lbl">Art</div></div>
+    <div class="tile"><div class="ico">▷</div><div class="lbl">Video</div></div>
+  </div>
+
+  <div class="bignum">
+    <div class="n">1,284</div>
+    <div class="l">github stars across my projects</div>
+  </div>
+
+  <div class="searchrow">
+    <div class="searchbar">⌕&nbsp;&nbsp;search the timeline…</div>
+    <div class="ctrl-btn" title="Back to top">↑</div>
+  </div>
+
+  <div class="timeline">
+  <div class="timeline-body">
+
+  <div class="row">
+    <div class="rail"><div class="dot"></div><div class="line"></div></div>
+    <div class="stack">
+      <div class="date">March 15, 2024</div>
+      <div class="card">
+        <div class="card-top">
+          <div class="front"></div>
+          <div class="count"><span class="star">★</span><span class="n">1,284</span></div>
+        </div>
+        <div class="meta">
+          <div class="tags"><span class="tag">machine learning</span><span class="tag">python</span></div>
+          <a class="src" href="#">view source ↗</a>
+        </div>
+        <div class="desc">A neural net experiment I built over a weekend — the description I hand-write for each entry goes here, spanning the full width under both columns.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="rail"><div class="dot"></div><div class="line"></div></div>
+    <div class="stack">
+      <div class="date">January 2, 2024</div>
+      <div class="card">
+        <div class="card-top">
+          <div class="front alt"></div>
+          <div class="count"><span class="star">★</span><span class="n">512</span></div>
+        </div>
+        <div class="meta">
+          <div class="tags"><span class="tag">web dev</span><span class="tag">typescript</span></div>
+          <a class="src" href="#">view source ↗</a>
+        </div>
+        <div class="desc">An earlier project — a CLI tool that grew legs. Each card sits on the rail at its own date, newest at the top.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="band-wrap">
+    <div class="grid" id="grid"></div>
+    <div class="band"><span>OFF LIMITS<span class="cursor">_</span></span></div>
+  </div>
+
+  <div class="archive">
+    <div class="archive-note">// dates approximate, order not guaranteed</div>
+    <div class="row">
+      <div class="rail"><div class="dot old"></div><div class="line"></div></div>
+      <div class="stack">
+        <div class="date">~2022, maybe?</div>
+        <div class="card">
+          <div class="card-top">
+            <div class="front"></div>
+            <div class="count"><span class="star">★</span><span class="n">88</span></div>
+          </div>
+          <div class="meta">
+            <div class="tags"><span class="tag">old project</span></div>
+            <a class="src" href="#">view source ↗</a>
+          </div>
+          <div class="desc">Older work below the line — same card format, just dimmed, with fuzzy dates and grey dots.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  </div>
+  <div class="scrub"><div class="thumb"></div></div>
+  </div>
+
+</div>
+
+<script>
+  var grid = document.getElementById('grid');
+  var shades = ['#2a2a2a','#3a3a3a','#5a5a5a','#7a7a7a','#9a9a9a','#1a1a1a','#1a1a1a','#1a1a1a'];
+  for (var i = 0; i < 144; i++) {
+    var c = document.createElement('div');
+    c.style.background = shades[Math.floor(Math.random() * shades.length)];
+    if (Math.random() < 0.12) {
+      c.style.animation = 'flick ' + (0.6 + Math.random() * 1.4).toFixed(2) + 's steps(2) infinite';
+      c.style.animationDelay = (Math.random() * 2).toFixed(2) + 's';
+    }
+    grid.appendChild(c);
+  }
+</script>
+</body>
+</html>

@@ -1,0 +1,51 @@
+# Sync card counts (Pixiv / Bilibili / YouTube / GitHub) into cards/counts.js
+#
+# Runs daily + on demand. The script is self-skipping: providers without
+# credentials are just left out, so this works even with zero secrets.
+#
+# Optional secrets (repo -> Settings -> Secrets and variables -> Actions):
+#   PIXIV_REFRESH_TOKEN   Pixiv bookmarks via pixivpy (see @upbit/pixivpy docs)
+#   YOUTUBE_API_KEY       YouTube Data API v3 key
+#
+# GitHub stars and Bilibili views need no credentials.
+
+name: sync counts
+
+on:
+  schedule:
+    - cron: "0 4 * * *"      # daily at 04:00 UTC
+  workflow_dispatch:          # manual run from the Actions tab
+
+permissions:
+  contents: write             # let the bot commit counts.js back
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install pixivpy (Pixiv only)
+        run: pip install pixivpy
+
+      - name: Bake counts into cards/counts.js
+        env:
+          PIXIV_REFRESH_TOKEN: ${{ secrets.PIXIV_REFRESH_TOKEN }}
+          YOUTUBE_API_KEY: ${{ secrets.YOUTUBE_API_KEY }}
+        run: python3 tools/sync_counts.py
+
+      - name: Commit if counts changed
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add cards/counts.js
+          if git diff --cached --quiet; then
+            echo "no count changes"
+          else
+            git commit -m "chore: sync card counts"
+            git push
+          fi

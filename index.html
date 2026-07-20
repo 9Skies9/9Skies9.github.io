@@ -1,19 +1,124 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Placeholder</title>
-    <meta name="description" content="Simple placeholder page." />
-    <link rel="stylesheet" href="styles.css" />
-  </head>
-  <body>
-    <main class="placeholder">
-      <h1>This is just a placeholder!</h1>
-      <p>
-        I'll make sure to make this place fancy when I've learnt the ins and
-        outs of fancy websites!
-      </p>
-    </main>
-  </body>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>GRAY WORLD_</title>
+  <meta name="description" content="code · art · video. a personal system." />
+
+  <!-- pixel display font for labels; ASCII art uses strict monospace (see CSS) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Pixelify+Sans:wght@400..700&display=swap" rel="stylesheet" />
+
+  <link rel="stylesheet" href="css/style.css?v=1" />
+</head>
+<body>
+
+  <!-- background texture layer (flat blocks + bars, drawn by JS) -->
+  <canvas class="bg-blocks" id="bg-blocks" aria-hidden="true"></canvas>
+
+  <!-- top HUD bar -->
+  <header class="hud hud--top">
+    <span class="hud__l">▌SYS://GRAY-WORLD <span class="muted">build V1.0</span></span>
+    <span class="hud__c"><span class="dot">●</span> LINK : STABLE</span>
+    <span class="hud__r" id="hud-clock">--:--:--</span>
+  </header>
+
+  <main class="menu">
+
+    <!-- title -->
+    <section class="title-wrap">
+      <h1 class="title">GRAY WORLD <span class="cursor">_</span></h1>
+    </section>
+
+
+
+    <!-- who am i: description (left) + image (right, mirrored) -->
+    <section class="block">
+      <div class="select__head">▌Who am I <span class="cursor">_</span></div>
+      <div class="middle middle--mirror">
+        <div class="whoami__desc">
+          <p data-fill="bio">…</p>
+        </div>
+        <div class="slot">
+          <div class="slot__inner">
+            <div class="slot__box slot__box--photo">
+              <img class="slot__photo" src="assets/pfp.png" alt="profile photo" />
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- what I love: heart (left) + roots (right) -->
+    <section class="block">
+      <div class="select__head">▌What I Love <span class="cursor">_</span></div>
+      <div class="middle">
+        <div class="slot" id="heart-slot">
+          <div class="slot__inner">
+            <div class="slot__box slot__box--heart">
+              <img class="slot__heart" src="assets/heart.png" alt="low-poly heart" />
+            </div>
+          </div>
+        </div>
+        <div class="feed">
+          <dl class="feed__list" id="feed"><!-- filled by JS --></dl>
+        </div>
+      </div>
+    </section>
+
+    <!-- stream selector -->
+    <section class="select" id="selector">
+      <div class="select__head">▌Things I've Done<span class="cursor">_</span></div>
+      <div class="select__list" id="stream-list"><!-- filled by JS --></div>
+    </section>
+
+    <!-- stream view (hidden until a tile is clicked) -->
+    <section class="stream-view" id="stream-view">
+      <div class="stream-panel">
+        <div class="aggregate">
+          <span class="aggregate__glyph" id="agg-glyph">★</span>
+          <span class="aggregate__num" id="agg-num">0</span>
+          <span class="aggregate__label" id="agg-label">—</span>
+        </div>
+        <div class="stream-controls">
+          <label class="searchbar">
+            <span class="searchbar__prompt">&gt;_</span>
+            <input type="search" id="search" placeholder="filter this stream..." aria-label="filter cards" autocomplete="off">
+          </label>
+          <button class="ctrl-btn" id="deck-top" type="button" title="back to top of deck" aria-label="back to top of deck">↑</button>
+        </div>
+        <div class="cards cards--deck" id="cards">
+          <div class="timeline-track" id="timeline"><!-- JS: entries --></div>
+
+          <div class="offlimits" aria-label="off limits">
+            <div class="offlimits__band"><span>OFF LIMITS<span class="cursor">_</span></span></div>
+          </div>
+
+          <div class="archive-wrap" aria-label="archive">
+            <div class="timeline-track cards--archive" id="archive"><!-- JS: archive entries --></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- bottom HUD bar -->
+  <footer class="hud hud--bot">
+    <span class="hud__l">aesthetic :: 現実逃避P</span>
+    <span class="hud__c" id="hud-dots">● ○ ○</span>
+    <span class="hud__r">灰色地带<span class="cursor">_</span></span>
+  </footer>
+
+  <script src="js/data.js?v=1"></script>
+  <script src="js/card.js?v=1"></script>
+  <script src="js/hydrate.js?v=1"></script>
+  <script src="cards/counts.js?v=1"></script><!-- generated by tools/sync_counts.py; ok if missing -->
+  <script src="cards/1 cs/cards.js?v=1"></script>
+  <script src="cards/2 art/cards.js?v=1"></script>
+  <script src="cards/3 videos/cards.js?v=1"></script>
+  <script src="js/main.js?v=1"></script>
+</body>
 </html>
