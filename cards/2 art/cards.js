@@ -11,15 +11,15 @@
          tags:  ["study", "greyscale"],
          cover: "cards/2 art/images/artwork.png",   // optional
          url:   "https://www.pixiv.net/...",
-         // count: 1234   ← optional; auto-fetched later (bookmarks)
+         // count: 1234   ← optional; auto-fetched later (likes)
        })
    ========================================================================= */
 
 window.STREAMS.art = {
   label: "Art",
   sub: "Pixiv",
-  kind: "bookmarks",
-  aggregateLabel: "total bookmarks across works",
+  kind: "likes",
+  aggregateLabel: "total pixiv likes across works",
   items: [
     card({ date: "2025-03", title: "study — light through glass", desc: "a personal study chasing the grey light.", tags: ["study", "greyscale"], url: "#", count: 384 }),
     card({ date: "2024-11", title: "vocaloid fanart", desc: "初音ミク, low-poly treatment.", tags: ["fanart", "miku"], url: "#", count: 1290 }),

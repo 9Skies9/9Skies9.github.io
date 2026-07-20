@@ -17,7 +17,7 @@
 
    To add a provider: push { name, match, fetch } onto PROVIDERS.
      match(url) -> id string | null     (null = this url isn't yours)
-     fetch(id)  -> Promise<number>      (the metric: stars/views/bookmarks)
+     fetch(id)  -> Promise<number>      (the metric: stars/views/likes)
    ========================================================================= */
 
 (function () {

@@ -19,7 +19,7 @@ window.STREAMS.video = {
   label: "Video",
   sub: "Bilibili / YouTube",
   kind: "views",
-  aggregateLabel: "total views across videos",
+  aggregateLabel: "total views (from both platforms) across videos",
   items: [
     card({ date: "2025-04", title: "how a shader works", desc: "a 4-minute explainer on signed distance fields.", tags: ["tutorial", "webgl"], url: "#", count: 21450 }),
     card({ date: "2024-12", title: "timelapse — a painting", desc: "8 hours compressed to 90 seconds.", tags: ["timelapse", "art"], url: "#", count: 5310 }),

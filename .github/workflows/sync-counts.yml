@@ -4,7 +4,7 @@
 # credentials are just left out, so this works even with zero secrets.
 #
 # Optional secrets (repo -> Settings -> Secrets and variables -> Actions):
-#   PIXIV_REFRESH_TOKEN   Pixiv bookmarks via pixivpy (see @upbit/pixivpy docs)
+#   PIXIV_REFRESH_TOKEN   Pixiv likes via pixivpy (see @upbit/pixivpy docs)
 #   YOUTUBE_API_KEY       YouTube Data API v3 key
 #
 # GitHub stars and Bilibili views need no credentials.

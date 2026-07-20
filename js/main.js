@@ -11,11 +11,11 @@
   'use strict';
 
   const METRIC = {
-    stars:     { glyph: '★', label: 'stars' },
-    bookmarks: { glyph: '♡', label: 'bookmarks' },
-    views:     { glyph: '▶', label: 'views' },
+    stars:     { glyph: '✰', label: 'stars' },
+    likes:     { glyph: 'ദ്ദി', label: 'likes' },
+    views:     { glyph: '𓁹', label: 'views' },
   };
-  const ICON = { cs: '&lt;/&gt;', art: '▰', video: '▶' };
+  const ICON = { cs: '&lt;/&gt;', art: 'ᝰ', video: '▶' };
 
   const $  = (s, r = document) => r.querySelector(s);
   const fmt = (n) => (n || 0).toLocaleString('en-US');
@@ -219,7 +219,8 @@
   /* ---- flat grey block field + drifting bars (background) --------------
      wowaka-style: hard-edged neutral-grey blocks and long dark bars on a
      paper field, redrawn at ~12fps on purpose (frame-skip = retro). Blocks
-     pop in/out staccato; bars drift slowly and wrap. Every few seconds a
+     pop in/out staccato (solid color blended toward the paper, never alpha);
+     bars drift slowly and wrap. Every few seconds a
      short glitch burst shifts horizontal slices of the canvas sideways and
      snap-shifts the hero geometry (via .is-glitch on .title-wrap). */
   function setupBlocks() {
@@ -242,7 +243,18 @@
     const GREYS = ['#d4d4d4', '#c6c6c6', '#b2b2b2', '#9d9d9d'];
     const COUNT = 14;
     const FRAME_MS = 1000 / 12;          // deliberate frame-skip
-    const POP_MS = 160;                  // staccato fade at birth/death
+    const POP_MS = 160;                  // staccato blend at birth/death
+
+    // fade = blend the solid grey toward the paper color (opaque, no alpha):
+    // paper -> grey at birth, grey -> paper at death, same timing as before
+    const PAPER = [233, 233, 233];       // --paper #e9e9e9
+    function mixGrey(hex, t) {
+      const n = parseInt(hex.slice(1), 16);
+      const r = n >> 16, g = (n >> 8) & 255, b = n & 255;
+      return `rgb(${Math.round(PAPER[0] + (r - PAPER[0]) * t)},`
+           + `${Math.round(PAPER[1] + (g - PAPER[1]) * t)},`
+           + `${Math.round(PAPER[2] + (b - PAPER[2]) * t)})`;
+    }
 
     // a connected cluster of 1-5 rectangles -> composite shapes
     function makeParts(s) {
@@ -331,22 +343,20 @@
 
       ctx.clearRect(0, 0, W, H);
 
-      // blocks (solid grey, pop in/out)
+      // blocks (solid grey, blended toward the paper at birth/death)
       for (let i = 0; i < blocks.length; i++) {
         let b = blocks[i];
         const age = now - b.born;
         if (age >= b.dur) { blocks[i] = b = spawnBlock(false); continue; }
         b.x += b.vx * dt; b.y += b.vy * dt;
-        const fade = Math.min(age / POP_MS, (b.dur - age) / POP_MS, 1);
-        if (fade <= 0) continue;
-        ctx.globalAlpha = fade;
-        ctx.fillStyle = b.grey;
+        const t = Math.min(age / POP_MS, (b.dur - age) / POP_MS, 1);
+        if (t <= 0) continue;
+        ctx.fillStyle = mixGrey(b.grey, t);
         for (let j = 0; j < b.parts.length; j++) {
           const p = b.parts[j];
           ctx.fillRect(b.x + p.x, b.y + p.y, p.w, p.h);
         }
       }
-      ctx.globalAlpha = 1;
 
       // bars (over blocks, like the reference)
       for (const bar of bars) {

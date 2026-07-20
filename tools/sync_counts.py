@@ -14,7 +14,7 @@ you want fresh numbers:
 Credentials come from the environment or a gitignored .env file at the
 repo root, and are used by their respective providers only:
 
-    PIXIV_REFRESH_TOKEN   Pixiv bookmarks (pip install pixivpy)
+    PIXIV_REFRESH_TOKEN   Pixiv likes (pip install pixivpy)
     YOUTUBE_API_KEY       YouTube Data API v3 key
 
 GitHub stars and Bilibili views need no credentials.
@@ -80,7 +80,7 @@ def bilibili_count(bvid):
 
 
 def pixiv_counts(ids):
-    """{illust_id: bookmarks} via pixivpy."""
+    """{illust_id: likes} via pixivpy."""
     try:
         from pixivpy3 import AppPixivAPI
     except ImportError:
