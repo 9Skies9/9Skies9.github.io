@@ -12,7 +12,7 @@ you want fresh numbers:
     python3 tools/sync_counts.py
 
 Credentials come from the environment or a gitignored .env file at the
-repo root (both are REQUIRED — the script exits if they're missing):
+repo root, and are used by their respective providers only:
 
     PIXIV_REFRESH_TOKEN   Pixiv bookmarks (pip install pixivpy)
     YOUTUBE_API_KEY       YouTube Data API v3 key
@@ -48,11 +48,6 @@ load_env(ROOT / ".env")
 
 PIXIV_REFRESH_TOKEN = os.environ.get("PIXIV_REFRESH_TOKEN", "")
 YOUTUBE_API_KEY = os.environ.get("YOUTUBE_API_KEY", "")
-_missing = [k for k, v in [("PIXIV_REFRESH_TOKEN", PIXIV_REFRESH_TOKEN),
-                           ("YOUTUBE_API_KEY", YOUTUBE_API_KEY)] if not v]
-if _missing:
-    sys.exit("error: missing credentials: " + ", ".join(_missing)
-             + " — put them in .env at the repo root (see HOOKING.md)")
 
 URL_RE = re.compile(r'url:\s*"([^"]+)"')
 GH_RE = re.compile(r"github\.com/([\w.-]+/[\w.-]+)")

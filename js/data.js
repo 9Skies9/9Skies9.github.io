@@ -35,18 +35,7 @@ const ROOTS = [
   ["CGI", "countless works"],
 ];
 
-/* -------------------------------------------------------------------------
-   CONFIG  —  keys for live count fetching (see js/hydrate.js)
-   YouTube Data API v3 key: console.cloud.google.com -> enable "YouTube Data
-   API v3" -> create an API key restricted to HTTP referrers (your domain).
-   Leave empty to skip live YouTube counts (baked/static counts still work).
-   ------------------------------------------------------------------------- */
-const CONFIG = {
-  youtubeApiKey: "",
-};
-
 /* expose to other scripts (STREAMS is assembled by the cards/<stream>/cards.js files) */
-window.CONFIG = CONFIG;
 window.IDENTITY = IDENTITY;
 window.ROOTS = ROOTS;
 window.STREAMS = {};

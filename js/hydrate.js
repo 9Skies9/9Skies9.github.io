@@ -9,10 +9,11 @@
         offline by tools/sync_counts.py. Covers providers the browser can't
         reach (Pixiv: login required; Bilibili: no CORS) and pins numbers
         you want fixed. Works from file:// because it's a plain script.
-     2. LIVE fetch    — providers the browser CAN call directly:
+     2. LIVE fetch    — the only provider the browser can call keyless:
            GitHub   api.github.com            (no key, 60 req/h, cached 1h)
-           YouTube  youtube.googleapis.com    (needs CONFIG.youtubeApiKey)
      3. STATIC count  — whatever the card already has. Always the fallback.
+
+   No API keys in public files, ever — providers that need one are baked.
 
    To add a provider: push { name, match, fetch } onto PROVIDERS.
      match(url) -> id string | null     (null = this url isn't yours)
@@ -66,29 +67,10 @@
         return (await res.json()).stargazers_count || 0;
       },
     },
-    {
-      name: 'youtube',
-      // watch?v=ID, youtu.be/ID, /shorts/ID -> 11-char video id
-      match(url) {
-        const m = String(url).match(
-          /(?:youtube\.com\/(?:watch\?[^#]*v=|shorts\/)|youtu\.be\/)([\w-]{11})/);
-        return m ? m[1] : null;
-      },
-      async fetch(id) {
-        const key = (window.CONFIG || {}).youtubeApiKey;
-        if (!key) throw new Error('youtube: no CONFIG.youtubeApiKey, skipped');
-        const res = await fetch('https://www.googleapis.com/youtube/v3/videos'
-          + '?part=statistics&id=' + id + '&key=' + key);
-        if (!res.ok) throw new Error('youtube ' + res.status);
-        const data = await res.json();
-        const v = data.items && data.items[0] && data.items[0].statistics;
-        if (!v) throw new Error('youtube: video not found');
-        return +(v.viewCount || 0);
-      },
-    },
-    /* Pixiv + Bilibili are intentionally NOT here — browsers can't call
-       them (Pixiv needs OAuth login, Bilibili sends no CORS headers).
-       tools/sync_counts.py handles them offline into cards/counts.js. */
+    /* YouTube, Pixiv + Bilibili are intentionally NOT here:
+         - YouTube needs an API key, and keys never go in public files
+         - Pixiv needs OAuth login, Bilibili sends no CORS headers
+       tools/sync_counts.py handles all three offline into cards/counts.js. */
   ];
 
   function detect(url) {
