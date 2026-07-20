@@ -224,18 +224,13 @@ body::after {
   background: var(--paper);
   border: 1px solid var(--line-2);
   overscroll-behavior: contain;
-  scrollbar-width: thin; scrollbar-color: var(--line-3) var(--paper);
+  scrollbar-width: none;                 /* hidden, still scrolls */
 }
 .cards--deck > * { flex-shrink: 0; }
 .cards--deck > .timeline-track { margin-bottom: 0; }
 /* off-limits bleeds edge-to-edge inside the deck */
 .cards--deck > .offlimits { margin: 0 -8px; }
-/* archive sits back inside the padding */
-.cards--deck > .archive-wrap { padding: 0 8px; }
-.cards--deck::-webkit-scrollbar { width: 8px; }
-.cards--deck::-webkit-scrollbar-track { background: var(--paper); }
-.cards--deck::-webkit-scrollbar-thumb { background: var(--line-3); }
-.cards--deck::-webkit-scrollbar-thumb:hover { background: var(--grey); }
+.cards--deck::-webkit-scrollbar { display: none; }
 .card.is-hidden { display: none; }
 
 /* timeline rail inside the deck */
